@@ -244,12 +244,13 @@ std::string Raylib::getControllerName(int const &idx) const noexcept
 bool Raylib::isControllerValid(int const &idx, std::string const &ControllerName
 ) const noexcept
 {
-    if (ControllerName.compare("xbox"))
-        return (IsGamepadName(idx, XBOX360_NAME_ID) ||
-            IsGamepadName(idx, XBOX360_LEGACY_NAME_ID));
-    if (ControllerName.compare("ps3"))
-        return IsGamepadName(idx, PS3_NAME_ID);
     return false;
+    // if (ControllerName.compare("xbox"))
+    //     return (IsGamepadName(idx, XBOX360_NAME_ID) ||
+    //         IsGamepadName(idx, XBOX360_LEGACY_NAME_ID));
+    // if (ControllerName.compare("ps3"))
+    //     return IsGamepadName(idx, PS3_NAME_ID);
+    // return false;
 }
 
 std::vector<int> Raylib::getControllerInput(int idx)
@@ -394,7 +395,7 @@ void Raylib::drawMesh(const std::string &modelPath,
         _models.insert({modelPath,
             LoadModelFromMesh(GenMeshPlane(size.first, size.second, 5, 5))});
         it = _models.find(modelPath);
-        SetMaterialTexture(&it->second.materials[0], MAP_DIFFUSE, at->second);
+        SetMaterialTexture(&it->second.materials[0], MATERIAL_MAP_DIFFUSE, at->second);
     }
     DrawModel(it->second, {pos.first, pos.second, pos.third}, scale,
         {tint.r, tint.g, tint.b, tint.a});
@@ -419,7 +420,7 @@ void Raylib::drawModel(const std::string &modelPath,
     if (it == _models.end()) {
         _models.insert({modelPath, LoadModel(modelPath.c_str())});
         it = _models.find(modelPath);
-        SetMaterialTexture(&it->second.materials[0], MAP_DIFFUSE, at->second);
+        SetMaterialTexture(&it->second.materials[0], MATERIAL_MAP_DIFFUSE, at->second);
     }
     DrawModelEx(it->second, {pos.first, pos.second, pos.third},
         {axis.first, axis.second, axis.third}, angle, {scale, scale, scale},
@@ -473,11 +474,11 @@ void Raylib::drawAnimation(const std::string &modelPath,
     if (model == _models.end()) {
         _models.insert({modelPath, LoadModel(modelPath.c_str())});
         model = _models.find(modelPath);
-        SetMaterialTexture(&model->second.materials[0], MAP_DIFFUSE,
+        SetMaterialTexture(&model->second.materials[0],MATERIAL_MAP_DIFFUSE,
             text->second);
     }
     if (anim == _animation.end()) {
-        int animsCount = 0;
+        unsigned int animsCount = 0;
         _animation.insert({animationPath,
             LoadModelAnimations(animationPath.c_str(), &animsCount)});
         anim = _animation.find(animationPath);
